@@ -29,6 +29,7 @@ export const createNovel = async (req: Request, res: Response) => {
 
 export const getAllNovels = async (req: Request, res: Response) => {
   console.log("Get All req Resevid");
+  
 
   getAll((err, results) => {
     if (err) {

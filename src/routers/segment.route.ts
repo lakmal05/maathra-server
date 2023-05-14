@@ -4,9 +4,9 @@ import {
     createSegment,
     updateSegment,
     deleteSegment,
-    getAllSegment,
+    getAllSegments,
     getSegmentBySegmentId,
-  } from "../controllers/Segment.controller";
+  } from "../controllers/segment.controller";
   
 
 
@@ -14,7 +14,7 @@ import {
   segmentRouter.post("/", createSegment);
   segmentRouter.put("/:segmentID", updateSegment);
   segmentRouter.delete("/:segmentID", deleteSegment);
-  segmentRouter.get("/getAll", getAllSegment);
+  segmentRouter.get("/getAll", getAllSegments);
   segmentRouter.get("/:segmentID", getSegmentBySegmentId);
 
 
