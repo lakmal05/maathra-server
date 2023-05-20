@@ -1,10 +1,10 @@
-// // import db from "../db";
-// import { NextFunction, Request, Response } from "express";
-// // import { verify } from "../utils/jwt";
-// import { getAuth } from "firebase-admin/auth";
-// import { RowDataPacket } from "mysql2";
-// import { JwtPayload } from "jsonwebtoken";
-// // import logger from "../utils/logger";
+// import db from "../db";
+import { NextFunction, Request, Response } from "express";
+// import { verify } from "../utils/jwt";
+import { getAuth } from "firebase-admin/auth";
+import { RowDataPacket } from "mysql2";
+import { JwtPayload } from "jsonwebtoken";
+// import logger from "../utils/logger";
 
 // export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
 //     if (!req.headers.authorization) {
@@ -42,30 +42,30 @@
 //     next();
 // };
 
-// export const checkAuthApp = async (req: Request, res: Response, next: NextFunction) => {
-//     if (!req.headers.authorization) {
-//         console.log("No Token");
+export const checkAuthApp = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.headers.authorization) {
+        console.log("No Token");
 
-//         return res.status(403).json({ error: "No Token" });
-//     }
+        return res.status(403).json({ error: "No Token" });
+    }
 
-//     if (!req.headers.authorization.startsWith("Bearer ")) {
-//         console.log("Bad Auth");
-//         return res.status(403).json({ error: "Bad Auth" });
-//     }
+    if (!req.headers.authorization.startsWith("Bearer ")) {
+        console.log("Bad Auth");
+        return res.status(403).json({ error: "Bad Auth" });
+    }
 
-//     const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization.split(" ")[1];
 
-//     const auth = getAuth();
+    const auth = getAuth();
 
-//     try {
-//         const decodedToken = await auth.verifyIdToken(token, true);
+    try {
+        const decodedToken = await auth.verifyIdToken(token, true);
 
-//         req.user = { uid: decodedToken.uid, email: decodedToken.email };
+        req.user = { uid: decodedToken.uid, email: decodedToken.email };
 
-//         next();
-//     } catch (err) {
-//         logger.error(err);
-//         return res.status(403).json({ error: "Unauthorized" });
-//     }
-// };
+        next();
+    } catch (err) {
+        logger.error(err);
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+};
