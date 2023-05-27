@@ -4,6 +4,9 @@ import { Request, Response } from "express";
 const admin = require("firebase-admin");
 const credentials = require("../account/accountKey.json");
 const { create, getAll } = require("../services/user.service");
+const uuid = require("uuid");
+
+const uniqeId = uuid.v4();
 
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
@@ -22,22 +25,25 @@ export const createUser = async (req: Request, res: Response) => {
   const porfile = {
     userName: req.body.userName,
     mobileNumber: req.body.mobileNumber,
-    referralCode: req.body.referralCode,
-    email:req.body.email
+    uniqeId: uniqeId,
+    email: req.body.email,
   };
+
   const user = {
     email: req.body.email,
     password: req.body.password,
   };
 
- 
-
-  if(porfile.email==null){
-
+  if (porfile.email == null) {
     console.log("please enter valid details");
-        
-  }else{
-
+    res.status(404).json({ messege: "enter valid details" });
+  }
+  if (uuid == null) {
+    res.status(403).json({ messege: "Try Again" });
+  }
+  //check uuid alredy exist in my sql database
+  // if () {  }
+    else {
     const userResponse = await admin.auth().createUser({
       email: user.email,
       password: user.password,
@@ -45,8 +51,6 @@ export const createUser = async (req: Request, res: Response) => {
       disabled: false,
     });
     res.json(userResponse);
-
-
 
     create(porfile, (err, results) => {
       if (err) {
@@ -61,11 +65,7 @@ export const createUser = async (req: Request, res: Response) => {
         });
       }
     });
-  
   }
-
-
-  
 };
 
 export const getAllUsers = async (req: Request, res: Response) => {
